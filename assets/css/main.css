@@ -1,0 +1,451 @@
+/* ---------- TABLATRONIX USEMOD WIKI STYLESHEET ----------- */
+/* --- Messed up by iay... --- */
+
+body, p, ul, ol, li, h1, h2, h3, h4, h5, h6, dd, dt {
+	font-family: Verdana, sans-serif, arial;
+	font-weight: normal;
+	font-size: 10pt;
+	color: Black;
+}
+h1, h2, h3, h4, h5, h6
+{
+	text-shadow: 1px 1px 1px #8e9eab;
+}
+
+body {
+	background-color: #FFFFFF;
+	background-repeat: no-repeat;
+	margin : 10px;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* edit formats */
+
+form {
+	margin: 0px; 
+	padding: 0px ;
+	display: block;
+}
+
+textarea {
+	background: White;
+	font-family: courier, mono;
+	border : 1px solid Black;
+}
+
+
+/* ------------------------------------------------------------------------------------*/
+/* wiki content formats */
+
+h1 {
+	font-weight: bold;
+	color: Black;
+	margin: 0px;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	font-size: 150%;
+	text-decoration: none;
+	padding-left : 0px;
+}
+	
+h2 {
+	margin-top: 5px;
+	margin-bottom: 0px;
+	font-size: 120%;
+	padding-bottom: 4px;
+	
+	border-bottom : 2px solid black;
+	
+	font-weight : bold;
+	color: black;
+}
+
+h2 a,
+h3 a,
+h2 a:hover,
+h3 a:hover {
+    text-decoration: none;
+    color: black;
+    border: none;
+}
+/*h2 a:link {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-style: italic;
+}
+ 
+h2 a:visited {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-style: italic;
+}           */
+ 
+h3 {
+	font-weight: bold;
+	color: #333333;
+	margin-left:0px;
+	margin-top: 2px;
+	margin-bottom: 0px;
+	font-size: 110%;
+	text-decoration: none;
+	/*background-color : #E6E6E6;
+	padding-left : 10px;*/
+	border-bottom:  2px solid black;
+}
+
+h3 a:link {
+ 	color: #333333;
+ 	font-weight: bold;
+ 	font-style: italic;
+}
+  
+h3 a:visited {
+ 	color: #333333;
+ 	font-weight: bold;
+ 	font-style: italic;
+} 
+	
+h4 {
+	font-weight: normal;
+	color: #FF6644;
+	margin: 0px;
+	margin-top: 2px;
+	margin-bottom: 0px;
+	font-size: 110%;
+	text-decoration: none;
+	padding-left :0px;
+}	
+
+h5 {
+	font-weight: normal;
+	color: #006699;
+	margin: 0px;
+	margin-top: 2px;
+	margin-bottom: 0px;
+	font-size: 110%;
+	text-decoration: none;
+	padding-left :0px;
+}	
+
+h6 {
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-left:0px;
+	margin-top: 2px;
+	margin-bottom: 0px;
+	font-size: 110%;
+	text-decoration: none;
+	background-color : #990000;
+	padding-left : 10px;
+}
+		
+h3.lettergroup {
+	border: none;
+}
+
+
+table  {
+ border-collapse: collapse; 
+ border-spacing: 0;
+ border: 1px solid #333333;
+ margin-left : 0px;
+ background : #F7F7F7;
+ font-family: Verdana, sans-serif, arial;
+ font-size: 10pt; 
+}
+ 
+td, th { 
+  padding: 2px;
+  /* Have to insist on this to work round an Opera bug. */
+  border: 1px solid #333333;
+  text-align: left;
+}
+
+.wikidiffnew {
+  background : #F7F7F7;
+}
+
+.wikidiffold {
+	background : #E7E6E6;
+}
+
+blockquote {
+	background: #f0f0f0;
+	margin: 0.5em 10% 0.5em 5%; 
+	padding: 0.5em 1em;
+}
+
+code, tt {
+	font-family: courier, "courier new", monaco, monospaced;
+	color:#333333;
+}
+
+pre {
+	font-family: courier, "courier new", monaco, monospaced;
+        border: #777777 1px solid;
+	padding: 0.5em;
+	margin-left: 1em;
+	margin-right: 2em;
+	white-space: pre;
+	background-color: #e6e6e6;
+	color: black;
+}
+
+li {
+	font-size: 10pt;
+	color: black;
+	margin-bottom: 0.2em;
+	margin-right: 5%;
+}
+
+li.changeitem {
+	list-style-type: none;
+	}
+.changeitemtime {
+	font-family : courier, "courier new", monaco, monospaced;
+}
+
+ul {
+	font-size: 10pt;
+	color: black;
+}
+
+/* this reverses the 2nd and 3rd level list item bullets */
+ul>li>ul {list-style-type: square;}
+ul>li>ul>li>ul {list-style-type: circle;}
+
+dl {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+dt {
+	font-weight: bold;
+	color:#333333;
+}
+
+dd {
+	margin-left: 5%;
+	margin-right: 5%;
+/*	margin-bottom: 0.5em;	*/
+/*	text-indent: -1em;		*/
+}
+
+a:link {
+	color: #006699;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.UnknownWikiLink {	/* all links to unknown wiki pages have this class */  
+color : #FF6644;  text-decoration : none;  }
+
+a.WikiPageLink {	/* all links to wikipages have this class */
+	color : #006699;}
+
+a.BracketLink {		/* all [bracketed] links have this class */
+	color : #006699;}
+
+a:visited {
+	text-decoration: none;
+	color: #006699;
+	font-weight : normal;
+}
+	
+a:hover {
+	text-decoration: none;
+	color: #006699;
+	border-bottom : 1px solid #FF6644;
+}
+
+a:active {
+	text-decoration: none;
+	color: #FF6644;
+}
+
+/* ------------------------------------------------------------------------------------*/
+/* tool bars */
+
+div.wikiheader {
+  	color: #FFF;
+	margin: -10px;
+	margin-bottom:5px;
+	background : #DBF4FA url(../images/header.jpg);
+	border-bottom:1px solid #777777;
+}
+
+/* COMMENT THE FOLLOWING OUT TO SHOW HEADER IMAGE AGAIN. */
+div.wikiheader img{	display : none; }
+
+/*
+ * Page name in the header.
+ */
+div.wikiheader h1 {
+	font-weight: normal;
+	color: #FFF;
+	font-size: 1.75em;
+	text-decoration: none;
+
+    background: url(../images/bg-shade.png); border-bottom: 1px solid #333;
+    padding: 1em 0.5em 0.5em 0.5em;
+    text-shadow: 1px 1px 1px #8e9eab;
+}	
+
+div.wikiheader h3{
+	font-weight: bold;
+	color: Black;
+	margin: 0px;
+	margin-top: 3px;
+	margin-bottom: 0px;
+	font-size: 60%;
+	text-decoration: none;
+	background-color : #DBF4FA;
+	padding-left : 0px;
+}	
+
+div.wikifooter{
+	color: #000000;
+	background : #DBF4FA;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 3px;
+	margin:-10px;
+	margin-top : 5px;
+	border-top:1px solid #777777;
+	border-bottom:1px solid #777777;
+}
+
+div.navtools,
+div.pagetools,
+div.admintools {
+	padding: 5px;
+	margin: 0px 5px;
+}
+
+div.navtools {
+/*	background: #eeeeee; 	*/
+}
+
+div.pagetools {
+	background: #ffffff;
+}
+
+div.admintools {
+	background: #dddddd; 
+}
+
+.tweener {
+	display: none;
+}
+
+.navtool {
+	font-family: verdana, helvetica, arial, sans;
+	font-size: 9pt;
+}
+
+.navtool a {
+	font-family: verdana, helvetica, arial, sans;
+	font-size: 9pt;
+	padding: 2px;
+/*	background-color: #eeeeee;		*/
+	line-height: 1em;
+	margin: 1px;
+/*	border: 1px outset #cccccc;		*/
+	display: inline;
+}
+
+.navtool a:hover {
+	margin: 0px;
+	border: 1px inset #cccccc;
+/*	background:#ffcc00; */
+	text-decoration: none;
+}
+
+/* ------------------------------------------------------------------------------------*/
+/* content components */
+
+div.pagecontent {
+	background: White;
+	margin:0px;
+}
+
+
+div.recentchanges,
+div.difftext,
+div.wikitext,
+div.searchlist,
+div.editprefs, 
+div.history,
+div.wikirc {
+	margin:0px;
+	padding-top: 	10px;
+	padding-bottom:10px;
+	padding-left: 	5px;
+	padding-right: 	10px;
+}
+
+div.title,
+div.header,
+div.footer {
+	background: #eeeeee;
+	padding: 5px;
+}
+
+div.header {
+	border-top: none;
+}
+
+div.title {
+	border-bottom: none;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+div.title > p {
+	margin: 0px;
+}
+
+hr.footer,
+hr.header {
+	visibility: hidden;
+	display: none;
+}
+
+/* ------------------------------------------------------------------------------------*/
+
+span.searchword {background-color: yellow; color:red;}
+
+
+/* ------------------------------------------------------------------------------------*/
+
+table.visitors tr td {padding: 0px 5px; font-family:sans;}
+
+
+/* display : block;  prevents IE bugs when <hr> is preceeded with a <p> */
+
+HR.wikilinefooter {
+  height : 1px;
+  display : block;
+  color : #777777;
+}
+
+HR.wikilineheader {
+  height : 2px;
+  color: #DBF4FA;
+  display : none; 
+}
+
+HR.wikiline {
+  height : 1px;
+  color : #333333;
+ display : block; 
+}
+
+HR.wikilinepref {
+  color : #333333;
+  height : 2px;
+  display : block; 
+}
+
+/* END */
