@@ -78,7 +78,7 @@ body {
     <h1>Getting started</h1>
     <ul>
         <li>Download the ZIP file and open your pi.*.php file</li>
-        <li>Delete this comment header, it's not EllisLab's plugin:</li>
+        <li>Delete this comment header, this isn't EllisLab's plugin:</li>
     </ul>
     <pre>
 /**
@@ -149,7 +149,7 @@ class Member_info {
     }
     public static function usage()
     {
-        // pkg.io uses ob_start, HEREDOC does the same thing and is shorter:
+        // pkg.io uses ob_start, HEREDOC does the same thing, but it's shorter:
         return &lt;&lt;&lt;END
 How to call this plugin:
 {exp:member_info:query member_id="something"}
@@ -164,7 +164,7 @@ END;
 <div class="slide">
     <h1>Anatomy of a plugin</h1>
     <ul>
-        <li>The __construct() method is a PHP 5 constructor - this saves a copy of the global EE object so we can reference it later.</li>
+        <li>The __construct() method is a PHP 5 constructor - this saves a copy of the global EE object so we can reference it later</li>
         <li>The usage() method is referenced by the meta data array:</li>
     </ul>
     <pre>
@@ -208,7 +208,7 @@ public function <b>query</b>() {
     </ul>
     <pre>
 public function query() {
-    // 1. Get params from fetch_param(). Default value is FALSE.
+    // 1. Get params from fetch_param() - default value is FALSE
     // 2. Get the contents of the pair tag
     // 3. Setup a default response
     // 4. Run our query
@@ -221,7 +221,7 @@ public function query() {
 <div class="slide">
     <h1>Tag processing - step 1</h1>
     <pre>
-// 1. Get params from fetch_param().
+// 1. Get params from fetch_param()
 $requested_member_id = $this->EE->TMPL->fetch_param("member_id");
     </pre>
     <ul>
@@ -268,7 +268,7 @@ $vars = array(
 {/exp:member_info:query}
     </pre>
     <ul>
-        <li>More on how the parsing works in step 5.</li>
+        <li>More on how the parsing works in step 5</li>
     </ul>
 </div>
 
@@ -277,14 +277,22 @@ $vars = array(
     <pre>
 // 4. Run our query
 if($requested_member_id) {
-   $query = $this->EE->db
-          ->where('member_id', $requested_member_id)
-          ->get('members');
+   $query = $this->EE->db->where('member_id', $requested_member_id)
+                         ->get('members');
     </pre>
     <ul>
-        <li>1. See if we got a member_id in the parameters (default fetch_param() is FALSE)</li>
-        <li>2. Create the query object and set a where clause. $requested_member_id will be automatically escaped!</li>
-        <li>3. Run the query in the exp_members table - the exp_ prefix is added for us by get()</li>
+        <li>1. See if we got a member_id &nbsp; (default fetch_param() is FALSE)</li>
+        <li>2. Create the query object and set a where clause.
+            <ul>
+                <li>$requested_member_id will automatically be escaped!</li>
+            </ul>
+        </li>
+        <li>3. Run the query against the <b>exp_members</b> table
+            <ul>
+                <li>The <b>exp_</b> prefix is automatically added by get()</li>
+                <li>Admins can change this prefix - hardcoding it is bad</li>
+            </ul>
+        </li>
     </ul>
 </div>
 
@@ -318,8 +326,8 @@ if($requested_member_id) {
     }
     </pre>
     <ul>
-        <li>A security check to see if the user is asking for their own data.</li>
-        <li>The template can use this to show less info.</li>
+        <li>A security check to see if the user is asking for their own data</li>
+        <li>The template can use this to show less info</li>
     </ul>
 </div>
 
@@ -333,6 +341,7 @@ $result = $this->EE->TMPL->parse_variables($result, array($row));
     <ul>
         <li>Take the tagdata content that we put into $result and parse out our variables</li>
         <li>parse_variables() handles conditionals as well as variable pairs and single variables for us</li>
+        <li>Remember to wrap your variable array in another array<br/>(unless you have multiple rows)</li>
     </ul>
 
 </div>
@@ -375,6 +384,7 @@ return $result;
 <div class="slide">
     <h1>Questions?</h1>
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <h4><span class="info">is.gd/9aw7r8</span></h4>
     <h3>Isaac Raway (<span class="info">@airways</span>, <span class="info">isaac.raway@gmail.com</span>)</h3>
 
 
