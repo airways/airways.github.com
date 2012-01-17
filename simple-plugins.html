@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Simple Add-ons - Part I: Plugins</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="20110117" />
+<meta name="author" content="Isaac Raway" />
+<meta name="company" content="MetaSushi, LLC" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/sky/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- S5 JS -->
+<script src="ui/default/slides.js" type="text/javascript"></script>
+<style>
+body {
+/*    background: url(ui/sky/sky.jpg);*/
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>TwinCitiesEE: 1/17/2011</h1>
+<h2>Simple Add-ons - Part I: Plugins</h2>
+</div>
+
+</div>
+
+
+<div class="presentation">
+
+<div class="slide">
+    <h1>Simple Add-ons</h1>
+    <h2>Part I: Plugins</h2>
+    <h3>Isaac Raway (<span class="info">@airways</span>, <span class="info">isaac.raway@gmail.com</span>)</h3>
+    <h4>MetaSushi / The Nerdery</h4>
+</div>
+
+
+<div class="slide">
+    <h1>Custom plugins - why?</h1>
+    <ul>
+        <li>Instead of the query plugin</li>
+        <li>Safer - escape queries</li>
+        <li>More options for parsing output</li>
+        <li>Easier to implement business logic</li>
+        <li>Sometimes faster</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Getting started</h1>
+    <ul>
+        <li>Go to pkg.io and fill out the form (make sure you check the Plugin box)</li>
+    </ul>
+    <pre>
+        <img src="simple-plugins-files/pkg_io.png" width="55%" />
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Getting started</h1>
+    <ul>
+        <li>Download the ZIP file and open your pi.*.php file</li>
+        <li>Delete this comment header, it's not EllisLab's plugin:</li>
+    </ul>
+    <pre>
+/**
+ * ExpressionEngine - by EllisLab
+ *
+ * @package		ExpressionEngine
+ * @author		ExpressionEngine Dev Team
+ * @copyright	Copyright (c) 2003 - 2011, EllisLab, Inc.
+ * @license		http://expressionengine.com/user_guide/license.html
+ * @link		http://expressionengine.com
+ * @since		Version 2.0
+ * @filesource
+ */
+ 
+// ------------------------------------------------------------------------
+</pre>
+</div>
+
+
+<div class="slide">
+    <h1>Anatomy of a plugin</h1>
+    <ul>
+        <li>Filename must match the package directory:</li>
+    </ul>
+    <pre>
+system/expressionengine/third_party/<b>member_info</b>/
+system/expressionengine/third_party/<b>member_info</b>/pi.<b>member_info</b>.php
+    </pre>
+    <ul>
+        <li>Class name must match the package directory, with an initial uppercase letter:</li>
+    </ul>
+    <pre>
+class Member_info {
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Anatomy of a plugin</h1>
+    <ul>
+        <li>Before the class we have a meta data array:</li>
+    </ul>
+    <pre>
+$plugin_info = array(
+    'pi_name'           => 'Member_info',
+    'pi_version'        => '1.0',
+    'pi_author'         => 'Isaac Raway',
+    'pi_author_url'     => '',
+    'pi_description'    => 'Gets member information for the supplied ID',
+    'pi_usage'          => Member_info::usage(),
+);
+    </pre>
+    <ul>
+        <li>This info appears in the Add-ons > Plugins list</li>
+    </ul>
+
+</div>
+
+<div class="slide">
+    <h1>Anatomy of a plugin</h1>
+    <ul>
+        <li>The plugin class you get looks like this:</li>
+    </ul>
+    <pre>
+class Member_info {
+    public function __construct()
+    {
+        $this->EE =& get_instance();
+    }
+    public static function usage()
+    {
+        // pkg.io uses ob_start, HEREDOC does the same thing and is shorter:
+        return &lt;&lt;&lt;END
+How to call this plugin:
+{exp:member_info:query member_id="something"}
+{/exp:member_info:query}
+END;
+    }
+}
+
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Anatomy of a plugin</h1>
+    <ul>
+        <li>The __construct method is a PHP 5 constructor - this saves a copy of the global EE object so we can reference it later.</li>
+        <li>The usage() method is referenced by the meta data array:</li>
+    </ul>
+    <pre>
+$plugin_info = array(
+    ...
+    'pi_usage'          => Member_info::usage(),
+);
+    </pre>
+    <p>And now the most important bullet point in the presentation:</p>
+    <ul>
+        <li><b>All other public methods are the names of our tags</b></li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Creating a tag</h1>
+    <ul>
+        <li>Insert this method after the __construct method:</li>
+    </ul>
+    <pre>
+public function <b>query</b>() {
+}
+    </pre>
+    <ul>
+        <li>This creates a tag that looks like this:</li>
+    </ul>
+    <pre>
+{exp:<b>member_info</b>:<b>query</b>}
+{/exp:<b>member_info</b>:<b>query</b>}
+    </pre>
+    <ul>
+        <li><b>member_info</b> comes from the name of the package / class</li>
+        <li><b>query</b> comes from the name of the method</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Creating a tag</h1>
+    <ul>
+        <li>The six steps all plugins must take:</li>
+    </ul>
+    <pre>
+public function query() {
+    // 1. Get params from fetch_param(). Default value is FALSE.
+    // 2. Get the contents of the pair tag
+    // 3. Setup a default response
+    // 4. Run our query
+    // 5. Parse results variables into the output
+    // 6. Return the results as a string
+}
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 1</h1>
+    <pre>
+// 1. Get params from fetch_param().
+$requested_member_id = $this->EE->TMPL->fetch_param("member_id");
+    </pre>
+    <ul>
+        <li>If a param isn't set in the template, we will get FALSE instead</li>
+        <li>If you want a different default you can send it as 2nd param:</li>
+    </ul>
+    <pre>
+$test = $this->EE->TMPL->fetch_param("test", -1);
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 2</h1>
+    <pre>
+// 2. Get the contents of the pair tag
+$result = $this->EE->TMPL->tagdata;
+    </pre>
+    <ul>
+        <li>This allows us to get all the text between the opening and closing tags:</li>
+    </ul>
+    <pre>
+{exp:member_info:query}
+    This is the part that comes back in tagdata.
+{/exp:member_info:query}
+    </pre>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 3</h1>
+    <pre>
+// 3. Setup a default response
+$vars = array(
+    'found' => FALSE
+);
+    </pre>
+    <ul>
+        <li>If there are no results found, we want to be able to use a conditional to determine that easily:</li>
+    </ul>
+    <pre>
+{exp:member_info:query}
+    {if found} ... {if:else}
+        No results found for that ID!
+    {/if}
+{/exp:member_info:query}
+    </pre>
+    <ul>
+        <li>More on how the parsing works in step 5.</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 4</h1>
+    <pre>
+// 4. Run our query
+if($requested_member_id) {
+   $query = $this->EE->db
+          ->where('member_id', $requested_member_id)
+          ->get('members');
+    </pre>
+    <ul>
+        <li>1. See if we got a member_id in the parameters (default fetch_param() is FALSE)</li>
+        <li>2. Create the query object and set a where clause. $requested_member_id will be automatically escaped!</li>
+        <li>3. Run the query in the exp_members table - the exp_ prefix is added for us by get()</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 4</h1>
+    <pre>
+        // Check that we have at least one row
+        if($query->num_rows() > 0) {
+            // Replace the default return vars array
+            // with the result row
+            $vars = $query->row_array();
+            $vars['found'] = TRUE;
+        }
+    </pre>
+    <ul>
+        <li>Check if we have any data in the result - if so, blow away our default values and replace them with the data row</li>
+        <li>Add back in the "found" variable and set it to true</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 4</h1>
+    <pre>
+        // Check if request is for their own data,
+        // if not we can provide less info:
+        $vars['is_current_user'] =
+          (
+            $requested_member_id 
+               == $this->EE->session->member_id
+          );
+    }
+    </pre>
+    <ul>
+        <li>A security check to see if the user is asking for their own data.</li>
+        <li>The template can use this to show less info.</li>
+    </ul>
+</div>
+
+
+<div class="slide">
+    <h1>Tag processing - step 5</h1>
+    <pre>
+// 5. Parse results variables into the output
+$result = $this->EE->TMPL->parse_variables($result, array($row));
+    </pre>
+    <ul>
+        <li>Take the tagdata content that we put into $result and parse out our variables</li>
+        <li>parse_variables() handles conditionals as well as variable pairs and single variables for us</li>
+    </ul>
+
+</div>
+
+<div class="slide">
+    <h1>Tag processing - step 6</h1>
+    <pre>
+// 6. Return the results as a string
+return $result;
+    </pre>
+    <ul>
+        <li>Return the resulting text</li>
+        <li>That's it! We're done!</li>
+    </ul>
+
+</div>
+<div class="slide">
+    <h1>Using the tag</h1>
+    <ul>
+        <li>Example Template: <b>account/info</b></li>
+        <li>Example URL: <b>http://localhost/account/info/45</b></li>
+    </ul>
+    <pre>
+{exp:member_info:query member_id="{segment_3}"}
+    {if found}
+        Screen Name: {screen_name}&lt;br/&gt;
+        {if is_current_user}
+            Registered Email Address: {email}&lt;br/&gt;
+            Username: {username}&lt;br/&gt;
+            &lt;a href="{site_url}account/edit/{segment_3}"&gt;Edit&lt;/a&gt;
+        {/if}
+    {if:else}
+        Invalid request.
+    {/if}
+{/exp:member_info:query}
+    </pre>
+
+</div>
+
+<div class="slide">
+    <h1>Questions?</h1>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <h3>Isaac Raway (<span class="info">@airways</span>, <span class="info">isaac.raway@gmail.com</span>)</h3>
+
+
+</div>
+
+
+<!-- <div class="slide">
+<h1>Blog Post</h1>
+<ul>
+    <li>http://metasushi.com/blog/easy-custom-plugins/</li>
+</ul>
+</div> -->
+
+<div class="handout">
+
+</div>
+</div>
+
+
+</div>
+
+</body>
+</html>

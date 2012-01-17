@@ -1,0 +1,43 @@
+/* Following are the presentation styles -- edit away!
+   Note that the 'body' font size may have to be changed if the resolution is
+    different than expected. */
+
+body {background: url(sky.jpg); color: #210; font: 29px Myriad Pro, Tahoma, Arial; text-shadow: 2px 2px 2px #546d7c;}
+a {text-decoration: none; color: #336; border-bottom: 1px dotted;}
+h1, h2, h3, h4, h5, h6 {font-size: 1em; margin: 0;}
+sup {font-size: 0.75em; font-weight: normal;
+  vertical-align: 0.5em; line-height: 1px;}
+ul {margin-left: 1em; padding-left: 0;}
+li {margin-bottom: 0.66em;}
+li li {margin: 0.33em 0; font-size: smaller;}
+
+#header {background: url(bg-shade.png); border-bottom: 1px solid #333;
+  padding-bottom: 2em;}
+#footer {background: url(bg-shade.png); color: #FFF; border-top: 1px solid #333;}
+#header, #footer {font-size: 0.5em;}
+#footer h1, #footer h2 { padding: 0.5em 0.75em;
+  font-weight: normal; font-style: italic;}
+#footer h1 {left: 0; font-size: 1em; letter-spacing: 1px;}
+#footer h2 {position: absolute; bottom: 0; right: 0;}
+
+#controls a {display: none;}
+#controls select {visibility: hidden;}
+#controls div:hover select {visibility: visible;}
+
+#currentSlide {font-size: 0.5em;}
+#currentSlide span {font-size: 13px; color: #FFF;}
+#currentSlide #csSep {display: none;}
+#currentSlide #csHere {font-weight: normal;}
+#currentSlide #csHere:before {content: ""; font-weight: normal;}
+#currentSlide #csTotal:before {content: " of ";}
+
+.slide h1 {font-size: 1.66em; line-height: 1; letter-spacing: -1px;
+  margin: 0 -15% 1em 0; padding: 0.23em 15% 0.2em 0; border-bottom: 0.06125em solid #314049;
+  font-weight: normal; }
+ 
+#slide0 h1 {border: none; font-weight: normal; font-size: 2.25em; letter-spacing: 0; margin: 3em 0 1.5em;}
+#slide0 h3 {margin-bottom: 0; font-weight: normal;  }
+#slide0 h4 {margin-top: 0; font-size: smaller; font-weight: normal; }
+
+pre { font-size: .70em; margin-left: 1.5em; }
+.info { color: #243036; }
