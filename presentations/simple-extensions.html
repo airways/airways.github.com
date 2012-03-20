@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Simple Add-ons - Part II: Extensions</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="20120320" />
+<meta name="author" content="Isaac Raway" />
+<meta name="company" content="MetaSushi, LLC" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/sky/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- S5 JS -->
+<script src="ui/default/slides.js" type="text/javascript"></script>
+<style>
+body {
+/*    background: url(ui/sky/sky.jpg);*/
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>TwinCitiesEE: 3/20/2012 - Isaac Raway (<span class="info">@airways</span>)</h1>
+<h2>Simple Add-ons - Part II: Extensions - <span class="info">is.gd/xxxxxxxxx</a></h2>
+</div>
+
+</div>
+
+
+<div class="presentation">
+
+<div class="slide">
+    <h1>Simple Add-ons</h1>
+    <h2>Part II: Extensions</h2>
+    <h4><span class="info">is.gd/xxxxxxxxx</span></h4>
+    <h4>&nbsp;</h4>
+    <h3>Isaac Raway (<span class="info">@airways</span>, <span class="info">isaac.raway@gmail.com</span>)</h3>
+    <h4><a href="http://metasushi.com/">MetaSushi</a> / <a href="http://nerdery.com/">The Nerdery</a></h4>
+</div>
+
+
+<div class="slide">
+    <h1>Custom extensions</h1>
+    <ul>
+        <li>Allow modifying core logic</li>
+        <li>Sometimes allow modifying logic in add-ons</li>
+        <li>Centralize code, reduce template code</li>
+        <li>Probably the best power:code ratio in anything in EE</li>
+        <li>Generating a starter file:<ul>
+            <li>Go to <a href="http://pkg.io">pkg.io</a> and fill out the form (make sure you check the Extension box)</li>
+        </ul></li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>ProForm</h1>
+    <ul>
+        <li>EE's first drag <kbd>&amp;</kbd> drop form builder</li>
+        <li>Provides a number of <a href="http://metasushi.com/documentation/proform/extending/">hooks</a> to allow very custom use of data</li>
+        <li>Our project: <em>Send SMS Notifications when a form is filled out</em></li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>The hook</h1>
+    <table>
+        <tr><th>Hook</th><th>Parameters</th><th>Returns</th></tr>
+        <tr><td>proform_insert_end</td><td>$module, $form_obj, $data</td><td>none</td></tr>
+        <tr>
+            <td colspan="3"><br/>
+                <b>Description</b><br/>
+                This hook is called just after inserting the data for the form submission into the database. This can be used to push the final data array to an external source, generating some sort of custom notification, or a number of other purposes.
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="slide">
+    <h1>The API</h1>
+    <ul>
+        <li>Twilio provides an awesome API for sending SMS messages</li>
+        <li>It can do a lot more than just SMS - check out their docs</li>
+        <li>Install <a href="https://github.com/twilio/twilio-php">twilio-php</a> through PEAR, or unpack it inside the extension's package</li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Code: Settings</h1>
+    <ul>
+        <li>After we <a href="https://www.twilio.com/try-twilio?home-page">sign up</a> for a free dev account, put the settings they provide into our extension:</li>
+    </ul>
+    <pre>require 'Services/Twilio.php';
+
+class Sms_custom_notification_ext {
+    ... snip ...
+    private $twilio_sid    = 'xxxxxxxx';
+    private $twilio_token  = 'xxxxxxxx';
+    private $twilio_from   = '555678678';
+    private $twilio_notify = '111234234';
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Code: Extension activation</h1>
+    <ul>
+        <li>Next, we register for the hook that our extension responds to:</li>
+    </ul>
+    <pre>public function activate_extension()
+{
+    $extensions = array(
+        array(
+            'class'     => __CLASS__,
+            'method'    => 'proform_insert_end',
+            'hook'      => 'proform_insert_end',
+            'settings'  => serialize($this->settings),
+            'version'   => $this->version,
+            'enabled'   => 'y'
+        ),
+    );
+    foreach($extensions as $data)
+    {
+        $this->EE->db->insert('extensions', $data);
+    }
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Code: The hook method</h1>
+    <ul>
+        <li>This method will be called by EE when the hook is fired</li>
+        <li>It has three steps we want to accomplish:
+    </ul>
+    <pre>function proform_insert_end($module, $form_obj, $data)
+{
+    // 1. Create a new Twilio API object
+    // 2. Send the SMS
+    // 3. We haven't change the data, but we must return it:
+    return $data;
+}
+</pre>
+</div>
+
+
+<div class="slide">
+    <h1>Code: Initialize the API class</h1>
+    <ul>
+        <li>We need to create an API object with the settings we saved before:</li>
+    </ul>
+    <pre>// 1. Create a new Twilio API object
+$client = new Services_Twilio($this->twilio_sid, $this->twilio_token);}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Code: Initialize the API class</h1>
+    <ul>
+        <li>Next, we use the API object to send the actual message</li>
+    </ul>
+    <pre>$message = $client->account->sms_messages->create(
+    $this->twilio_from,          // From Twilio number
+    $this->twilio_notify,        // To admin number
+    'New '.$form_obj->form_name.' post:'
+    .' Name: '.$data['name']
+    .' Phone: '.$data['phone']
+    .' Severity: '.$data['severity']
+);
+</pre>
+</div>
+
+<div class="slide">
+    <h1>Code: Putting it together</h1>
+    <pre>function proform_insert_end($module, $form_obj, $data)
+{
+    // 1. Create a new Twilio API object
+    $client = new Services_Twilio($this->twilio_sid, $this->twilio_token);
+     
+    // 2. Send the SMS
+    $message = $client->account->sms_messages->create(
+        $this->twilio_from,          // From Twilio number
+        $this->twilio_notify,        // To admin number
+        'New '.$form_obj->form_name.' post:'
+        .' Name: '.$data['name']
+        .' Phone: '.$data['phone']
+        .' Severity: '.$data['severity']
+    );
+     
+    // 3. We haven't change the data, but we must return it:
+    return $data;
+}
+</pre>
+</div>
+
+<div class="slide">
+    <h1>That's it!</h1>
+    <ul>
+        <li>Using this method we could:
+            <ul>
+                <li>Send data to a custom or hosted CRM such as Salesforce.com</li>
+                <li>Save the data into existing database of some kind (MySQL, PostgreSQL, etc.)</li>
+                <li>Make an automated phone call to the visitor using Twilio</li>
+                <li>Ping a monitoring server such as Nagios</li>
+                <li>Trigger maintenance scripts to perform actions such as modifying a customer's services</li>
+                <li>Limitless possibilities!</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="slide">
+    <h1>Questions?</h1>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <h4><span class="info">is.gd/xxxxxxxxx</span></h4>
+    <h3>Isaac Raway (<span class="info">@airways</span>, <span class="info">isaac.raway@gmail.com</span>)</h3>
+
+
+</div>
+
+
+<!-- <div class="slide">
+<h1>Blog Post</h1>
+<ul>
+    <li>http://metasushi.com/blog/easy-custom-plugins/</li>
+</ul>
+</div> -->
+
+<div class="handout">
+
+</div>
+</div>
+
+
+</div>
+
+</body>
+</html>

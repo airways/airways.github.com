@@ -1,19 +1,17 @@
-<html>
-<head>
-<title>Airways</title>
-<link rel="stylesheet" type="text/css" href="assets/css/main.css" />
-</head>
-<body>
-<div class="wikiheader">
-<h1>Airways</h1>
-</div>
-<div class="wikitext">
-    
-    <h2>Presentations</h2>
-    <ul>
-        <li><a href="simple-plugins.html">Simple Add-ons - Part I: Plugins</a></li>
-    </ul>
-</div>
+---
+layout: default
+title: "Airways"
+---
 
-</body>
-</html>
+<h2>Articles</h2>
+<ul>
+	{% for post in site.posts %}
+		<li><a href="{{ post.url }}">{{ post.title }}</a> - {{ post.date | date "%B %e, %Y" }}</li>
+	{% endfor %}
+</ul>
+
+<h2>Presentations</h2>
+<ul>
+    <li><a href="presentations/simple-plugins.html">Simple Add-ons - Part I: Plugins</a> - TwinCitiesEE: 1/17/2012</li>
+    <li><a href="presentations/simple-extensions.html">Simple Add-ons - Part II: Extensions</a> - TwinCitiesEE: 3/20/2012</li>
+</ul>

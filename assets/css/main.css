@@ -292,6 +292,12 @@ div.wikiheader h1 {
     text-shadow: 1px 1px 1px #8e9eab;
 }	
 
+
+div.wikiheader h1 a {
+	font-weight: normal;
+	color: white;
+}
+
 div.wikiheader h3{
 	font-weight: bold;
 	color: Black;

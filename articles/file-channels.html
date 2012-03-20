@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Airways</title>
+<link rel="stylesheet" type="text/css" href="../assets/css/main.css" />
+</head>
+<body>
+<div class="wikiheader">
+<h1><a href="../">Airways</a></h1>
+</div>
+<div class="wikitext">
+
+<h2>Articles: Channel file handling for ExpressionEngine</h2>
+
+<p>I've been thinking about the way that file handling is done in ExpressionEngine 2.0 lately. I think I've come up with a design that would be a lot easier to work with and provide a lot of additional options beyond what we have right now. Basically the idea boils down to this:</p>
+
+<p><strong>Files should be stored as channel entries.</strong></p>
+
+<p>Actually, the idea is pretty obvious just from looking at the UI of ExpressionEngine 2.0. The Files listing is even put under the Content menu item, and has a very similar look to the listing of channel entries - but where it breaks down with the current implementation is the backend. Files aren't stored as channel entries, even though the UI implies that they would be.</p>
+
+<p>Imagine being able to create multiple File Channels, each one with it's own meta data fields created as Channel Fields. Relationship fields like Playa would allow more complex relationships between files and the content that uses them. Every existing custom field type could be used to provide really advanced meta data for file uploads. The possibilities are endless.</p>
+
+<p>Basically this implementation would need two things:</p>
+
+<ul>
+<li>Create a simple File Upload field that is available in all channels. Create a Channel Preference that shows or hides this field. Each channel with this option enabled becomes what we currently know as a "File Upload Preference".</li>
+<li>Re-work file management UI (including the built in File upload field type) to use this new data backend instead of the current files tables and File Upload Preferences.</li>
+</ul>
+
+<p>So that's my idea. Your thoughts?</p>
+</div>
+
+</body>
+</html>
